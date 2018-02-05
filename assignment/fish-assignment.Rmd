@@ -8,8 +8,7 @@ knitr::opts_chunk$set(message = FALSE)
 # Unit 3: Fisheries Collapse Module
 
 This module will focus on understanding and replicating
-fisheries stock assessment data and fisheries collapse. Follow along with Carl, 
-as he live codes the first exercise and then complete the second as your group assignment. 
+fisheries stock assessment data and fisheries collapse. 
 
 ## The Database
 
