@@ -29,7 +29,11 @@ library("readxl")
 ## Reading in the tables
 
 ```{r}
+## old link not working today:
 #download.file("https://depts.washington.edu/ramlegac/wordpress/databaseVersions/RLSADB_v3.0_(assessment_data_only)_excel.zip", 
+
+# backup copy for class:
+#download.file("https://github.com/espm-157/fish-template/releases/download/data/ramlegacy.zip", 
 #              "ramlegacy.zip")
 path <- unzip("ramlegacy.zip")  #unzip the .xls files
 sheets <- readxl::excel_sheets(path) #use the readxl package to identify sheet names 
