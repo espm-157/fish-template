@@ -5,15 +5,17 @@ output: github_document
 ```{r include = FALSE}
 knitr::opts_chunk$set(message = FALSE)
 ```
-
 # Unit 3: Fisheries Collapse Module
 
-This module will focus on understanding and replicating
-fisheries stock assessment data and fisheries collapse. Follow along with Carl, 
-as he live codes the first exercise and then complete the second as your group assignment. 
+This module will focus on understanding and replicating 
+fisheries stock assessment data and fisheries collapse. 
+
+Instead of working with independent dataframes, we will be working with a large
+relational database which contains many different tables of different sizes and 
+shapes, but that all all related to eachother through a series of different ids.
+
 
 ## The Database
-
 We will use data from the [RAM Legacy Stock Assessment Database](http://ramlegacy.marinebiodiversity.ca/ram-legacy-stock-assessment-database)
 
 First, load in the necessary librarys. Note that this time we need a package we 
@@ -28,13 +30,13 @@ library("readxl")
 
 ## Reading in the tables
 
-```{r}
-## old link not working today:
-#download.file("https://depts.washington.edu/ramlegac/wordpress/databaseVersions/RLSADB_v3.0_(assessment_data_only)_excel.zip", 
+First thing, you are going to need to download and unzip the files. Although you don't need 
+to do this step more than once, Travis will need this code to be able to reproduce you work successfully,
+unless you choose to push the datafiles up to git. 
 
-# backup copy for class:
-#download.file("https://github.com/espm-157/fish-template/releases/download/data/ramlegacy.zip", 
-#              "ramlegacy.zip")
+```{r}
+download.file("https://depts.washington.edu/ramlegac/wordpress/databaseVersions/RLSADB_v3.0_(assessment_data_only)_excel.zip", 
+              "ramlegacy.zip")
 path <- unzip("ramlegacy.zip")  #unzip the .xls files
 sheets <- readxl::excel_sheets(path) #use the readxl package to identify sheet names 
 ram <- lapply(sheets, readxl::read_excel, path = path)  #read the data from all 3 sheets into a list
@@ -48,18 +50,37 @@ head(ram$area)
 
 ```
 
-
+Side Note: You may notice the `lapply` function above. This function applies a given function
+(in this case "read_excel") to all elements in a vector or list. This is the same 
+as writing out read_excel for all 17 of the sheets contained in our file, or writing
+a for loop `for(i in 1:length(sheets)){read_excel(sheets[i])}`. These are very powerful
+functions we will learn more about later. For now, it's enough to recognize why we
+have used it here. You can find more info in [Chapter 21 of the R4ds
+book](http://r4ds.had.co.nz/iteration.html). 
 
 # Exercise 1: Investigating the North-Atlantic Cod
 
-First, We seek to replicate the following figure from the Millenium Ecosystem Assessment Project using the RAM data. 
+Now we are ready to dive into our data.  First, We seek to replicate the following 
+figure from the Millenium Ecosystem Assessment Project using the RAM data. 
 
-![](https://github.com/espm-157/website/raw/master/static/img/cod.jpg)
-
+![](http://berkeley.carlboettiger.info/espm-88b/fish/img/codcollapse.jpg)
 
 ## Task 1: Joining the necessary data
 
-To replicate this plot, we need a table with the following columns: `"country"`, `"ssb_unit"`, `"catch_landings_unit"`, `"scientificname"`, `"commonname"`, `"year"`, `"ssb"`, and `"TC"`. 
+To replicate this plot, we need a table with the following information: 
+- The species harvested 
+- the total catch *per year* (TC)
+- the spawning-stock-biomass *per year* (SSB)
+- the country, region, and/or area that the fish were harvested by/from
+
+The columns that contain this information are spread across the ram database. 
+To get this data together we are going to need to use joins. 
+A good way forward is to think about what data 
+we most care about (what do we want to end up plotting??? look above!), start with
+that and join as needed to pull together all the information. 
+
+Hint: the values of total catch and ssb per year are found in the `timeseries_values_views`
+table. 
 
 Using the `select()` and `join()` functions you were introduced to in in Module 1,
 build a tidy table with the desired columns. 
@@ -68,46 +89,29 @@ build a tidy table with the desired columns.
  
 ```
 
-## Task 2: Mapping the Area table to marine regions
+I ended up with a table that had the following column names (some of which I needed to rename
+in the process!):  `country`, `areaname`, `ssb_unit`, `TC_unit`, 
+`scientificname`, `commonname`, `year`, `ssb`, and `TC`. Your columns might be different
+just make sure you contain the info listed above!
 
-In order to replicate the collapse of Atlantic Cod, 
-we need to be able to map area table from the Ram database to the marine regions. 
+## Task 2: Subsetting our data by regional id and species name 
 
-*As an aside, this database is unclear what kind of areas the `area` table is using, they do not appear to be LMEs, EEZs, or other obvious marine region classification. Regardless, we will use them to extract the North America cod stocks.*
+In order to replicate the collapse of Atlantic Cod, we are interested in the 
+data from Atlantic Cod harvests in Canada. 
 
-Write code to pull all marine areas (listed in `ram$area`) that contain a certain substring
-in their name -- ex. "Georges Bank". 
-Hint: you want want to consider functions `filter()` or `grep()`
-
-```{r}
-
-```
-
-We are interested in mapping the data from just the areas where Atlantic Cod are found.
-Using the table you built above, pull out distinct areas that contain
-Atlantic Cod populations into a new tidytable. 
-Hint: you may want to use functions like `filter()` or `distinct()`
-
-```{r}
-
-```
-
-## Task 3: Subsetting our data by regional id
-
-Using bracket notation and or the `filter()` and `pull()` functions, try pulling 
-certain subsets of ids from your table of cod areas. ex. the first 8 ids, or the ids of areas just within a certain country.
-
-Create a vector of ids of areas with Atlantic Cod and in Canada. 
+Using the table you built above, `filter()` those records of Atlantic Cod caught in
+Canada. 
 
 ```{r}
 
 ```
 
 
-## Task 4: Plotting Total Catch in Canada
+## Task 3: Plotting Total Catch in Canada
 
-Calculate and plot the catch in million tons (MT) of Atlantic Cod from
-Canada using the data table and vector of ids you created above. 
+Calculate and plot the Canadian catch of Atlantic Cod (in million tons (MT)) through time using 
+your new datatable. 
+
 Hint: you may want to use functions like `group_by()`, `filter()`, and/or `summarise()`
 
 ```{r }
@@ -119,13 +123,14 @@ Hint: you may want to use functions like `group_by()`, `filter()`, and/or `summa
 
 ------
 
+
 # Exercise 2: Group Assignment
 
 ## Stock Collapses
 
 We seek to replicate the temporal trend in stock declines shown in [Worm et al 2006](http://doi.org/10.1126/science.1132294):
 
-![](https://espm-157.carlboettiger.info/img/worm2006.jpg)
+![](http://berkeley.carlboettiger.info/espm-88b/img/worm2006.png)
 
 **Question 1:** What years does this plot include? What is it plotting? 
 
