@@ -136,7 +136,7 @@ Hint: you may want to use functions like `group_by()`, `filter()`, and/or `summa
 
 We seek to replicate the temporal trend in stock declines shown in [Worm et al 2006](http://doi.org/10.1126/science.1132294):
 
-![](http://berkeley.carlboettiger.info/espm-88b/img/worm2006.png)
+![](http://espm-157.carlboettiger.info/img/worm2006.jpg)
 
 **Question 1:** What years does this plot include? What is it plotting? 
 
@@ -144,7 +144,7 @@ We seek to replicate the temporal trend in stock declines shown in [Worm et al 2
 
 Adapting the table you created in the first exercise, select and 
 manipulate the necessary columns to plot the number of total taxa caught each year 
-from 1950 til 2006 using `geom_point()`. 
+from 1950 til most recent complete data using `geom_point()`. 
 
 Hint: you may want to use functions like `group_by()`, `tally()` and be sure to 
 carefully consider how to handle or omit missing values. 
