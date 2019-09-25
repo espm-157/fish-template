@@ -58,7 +58,7 @@ head(ram$area)
 
 Side Note: You may notice the `lapply` function above. This function applies a given function
 (in this case "read_excel") to all elements in a vector or list. This is the same 
-as writing out read_excel for all 17 of the sheets contained in our file, or writing
+as writing out read_excel for all the sheets contained in our file, or writing
 a for loop `for(i in 1:length(sheets)){read_excel(sheets[i])}`. These are very powerful
 functions we will learn more about later. For now, it's enough to recognize why we
 have used it here. You can find more info in [Chapter 21 of the R4ds
@@ -71,61 +71,9 @@ figure from the Millenium Ecosystem Assessment Project using the RAM data.
 
 ![](http://espm-157.carlboettiger.info/img/cod.jpg)
 
-## Task 1: Joining the necessary data
-
-To replicate this plot, we need a table with the following information: 
-- The species harvested 
-- the total catch *per year* (TC)
-- the spawning-stock-biomass *per year* (SSB)
-- the country, region, and/or area that the fish were harvested by/from
-
-The columns that contain this information are spread across the ram database. 
-To get this data together we are going to need to use joins. 
-A good way forward is to think about what data 
-we most care about (what do we want to end up plotting??? look above!), start with
-that and join as needed to pull together all the information. 
-
-Hint: the values of total catch and ssb per year can be found in the `timeseries_values_views`
-table. 
-
-Using the `select()` and `join()` functions you were introduced to in in Module 1,
-build a tidy table with the desired columns. 
-
-```{r}
- 
-```
-
-I ended up with a table that had the following column names (some of which I needed to rename
-in the process!):  `country`, `areaname`, `ssb_unit`, `TC_unit`, 
-`scientificname`, `commonname`, `year`, `ssb`, and `TC`. Your columns might be different
-just make sure you contain the info listed above!
-
-## Task 2: Subsetting our data by regional id and species name 
-
-In order to replicate the collapse of Atlantic Cod, we are interested in the 
-data from Atlantic Cod harvests in Canada. 
-
-Using the table you built above, `filter()` those records of Atlantic Cod caught in
-Canada. 
-
-```{r}
-
-```
 
 
-## Task 3: Plotting Total Catch in Canada
-
-Calculate and plot the Canadian catch of Atlantic Cod (in million tons (MT)) through time using 
-your new datatable. 
-
-Hint: you may want to use functions like `group_by()`, `filter()`, and/or `summarise()`
-
-```{r }
-
-
-```
-
-**Question:** How does this graph compare to the one presented above? 
+**How does your graph compare to the one presented above?**
 
 ------
 
@@ -138,90 +86,7 @@ We seek to replicate the temporal trend in stock declines shown in [Worm et al 2
 
 ![](http://espm-157.carlboettiger.info/img/worm2006.jpg)
 
-**Question 1:** What years does this plot include? What is it plotting? 
-
-## Task 1: Plotting total taxa caught worldwide 1950-2006
-
-Adapting the table you created in the first exercise, select and 
-manipulate the necessary columns to plot the number of total taxa caught each year 
-from 1950 til most recent complete data using `geom_point()`. 
-
-Hint: you may want to use functions like `group_by()`, `tally()` and be sure to 
-carefully consider how to handle or omit missing values. 
-
-```{r}
-
-```
-
-## Task 2: Removing incomplete datasets
-
-Species can either have missing data (within a series) or a time range 
-that just doesn't span the full interval. Grouping by stockid instead of year, 
-build a character vector containing only those stockids that have data for the 
-full range (1950-2006).
 
 
-```{r}
-
-```
-
-**Question 2:** How many taxa have data for the full range?
-
-```{r}
-
-```
-
-
-## Task 3: Which fisheries have collapsed?
-
-A fishery may be considered *collapsed* when total catch (TC) falls
-below 10% of its peak. For those stocks with complete data sets, create a new 
-tidy table including columns: `stockid`, `TC`, `year`, `collapsed`, and `cumulative`, 
-where `collapsed` is a logical (True or False) for whether or not that fishery could
-be considered collapsed in that year, and `cumulative` is the count of total years
-the fishery has been collapsed at that point in time. 
-
-```{r}
-
-```
-
-## Task 4: Plotting total catch
-
-Using `geom_area()` plot the TC per stockid acros all years. 
-```{r}
-
-```
-
-## Task 5: Calculating percent collapsed
-
-To replicate the original plot, we must calculate the percent of taxa 
-collapsed over time.
-Using the `summarise()` function, and only the core stocks that have data 
-across the full interval, build a new tidy table
-that gives the fraction of all stocks that are collapsed in each year and 
-include a cumulative column that gives the fraction of all years (between 1950 and each year)
-that has experience at least one collapse. 
-
-Hint: when logical vectors are summed or converted to numerics, TRUE = 1 and FALSE = 0.
-
-```{r}
-
-```
-
-## Task 6: Plotting proportion collapsed over time. 
-
-Using `geom_line` twice to plot two individual lines (of different
-colors please), plot the cumulative number of collapsed fisheries through time
-and the fraction of collapsed fishers through time on the same graph.
-
-Hint: try using `scale_y_reverse()` to flip the y axis for a different perspective
-on these fractions.
-
-```{r}
-
-
-```
-
-**Question 3:** What does this graph show us? How is it presenting information differently than the original graph for this exercise? Is it presenting the same information? 
 
 
