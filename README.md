@@ -1,5 +1,5 @@
 
-*add travis-ci badge here*
+[![Build Status](https://travis-ci.com/espm-157/fish-template.svg?branch=master)](https://travis-ci.com/espm-157/fish-template)
 
 ## Team Members:
 
