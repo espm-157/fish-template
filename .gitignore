@@ -1,10 +1,29 @@
+# Private R session data
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
 .Rbuildignore
-Fish-template.Rproj
-ramlegacy.zip
-RLSADB v3.0 (assessment data only).xlsx
-RLSADB v4.44
+.Renviron
+
+## large data / binary files
+*.zip
+*.csv
+*.rds
+*.RData
+*.gz
+*.xlsx
+*.docx
+*.pdf
+
+# Temporary files created by R markdown
+*.utf8.md
+*.knit.md
+
+
+# template proj
 fish-template.Rproj
+*.Rproj
+
+# OS-specific
+.DStore
