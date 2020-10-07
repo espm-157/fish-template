@@ -24,7 +24,9 @@ Now we are ready to dive into our data. First, We seek to replicate the
 following figure from the Millennium Ecosystem Assessment Project using
 the RAM data.
 
-![](http://espm-157.carlboettiger.info/img/cod.jpg) \#\# placeholder
+![](http://espm-157.carlboettiger.info/img/cod.jpg)
+
+## placeholder
 
 ``` r
 mtcars %>% 
