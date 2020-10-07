@@ -7,7 +7,7 @@ jobs:
     name: Render Assignment
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v1 
+      - uses: actions/checkout@v2
       - name: Install Package Dependencies
         shell: Rscript {0}
         run: |-
