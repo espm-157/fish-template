@@ -2,7 +2,7 @@
 title: Fish Module Rubric
 ---
 
-target for full credit: 12
+target for full credit: 16
 
 - 3 pt for use of GitHub
     - are both users pushing/pulling?
