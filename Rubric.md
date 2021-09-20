@@ -8,9 +8,9 @@ target for full credit: 16
     - are both users pushing/pulling?
     - have they successfully dealt with merge conflicts (if any)?
     - have they updated their repository README with names and module details?
-- 2 pts for travis
+- 2 pts for GitHub Actions
     - is their build passing?
-    - is the travis badge included and displaying correctly on their .md documents
+    - is the Github Actions badge included and displaying correctly on their .md documents
 - 3 pts for Rmarkdown and coding style
     - do they include a .md file along with their .Rmd assignment file? is it in sync?
     - do their plots all show correctly?  
